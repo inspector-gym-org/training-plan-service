@@ -9,7 +9,7 @@ from .types import Environment, Frequency, Goal, Level, Sex
 PROPERTY_TO_ALIAS = {
     "title": "Назва",
     "price": "Вартість",
-    "url": "Посилання",
+    "content_url": "Посилання",
     "sex": "Стать",
     "goal": "Мета",
     "level": "Рівень Підготовки",
@@ -20,10 +20,11 @@ PROPERTY_TO_ALIAS = {
 
 class TrainingPlan(BaseModel):
     id: UUID
+    url: str
 
     title: str
     price: float
-    url: str
+    content_url: str
 
     sex: Sex
     goal: Goal
@@ -45,7 +46,7 @@ class TrainingPlan(BaseModel):
 
         return value
 
-    @validator("url", pre=True)
+    @validator("content_url", pre=True)
     def extract_url(cls, value: dict) -> str:
         if isinstance(value, dict):
             return value["url"]

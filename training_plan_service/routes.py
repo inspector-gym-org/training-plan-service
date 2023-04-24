@@ -1,4 +1,5 @@
 from enum import Enum
+from uuid import UUID
 
 from fastapi import APIRouter
 
@@ -35,6 +36,11 @@ async def get_training_plans(
             FilterProperty.ENVIRONMENT: environment,
         }
     )
+
+
+@router.get("/{training_plan_id}")
+async def get_training_plan(training_plan_id: UUID) -> TrainingPlan:
+    return database.get_training_plan(training_plan_id)
 
 
 @router.get("/existing-property-values/")

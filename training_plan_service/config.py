@@ -12,5 +12,9 @@ class Settings(BaseSettings):
 
     notion_database_id: str
 
+    log_level: str
+    log_format: str
+    log_date_format: str
+
 
 settings = Settings()  # type: ignore[call-arg]

@@ -4,11 +4,16 @@ from uuid import UUID
 from fastapi import APIRouter
 
 from .config import settings
+from .logging_route import LoggingRoute
 from .models import TrainingPlan
 from .notion import TrainingPlansNotion
 from .types import Environment, FilterProperty, Frequency, Goal, Level, Sex
 
-router = APIRouter(prefix="/training-plans", tags=["training-plans"])
+router = APIRouter(
+    prefix="/training-plans",
+    tags=["training-plans"],
+    route_class=LoggingRoute,
+)
 
 database = TrainingPlansNotion(
     url=settings.notion_url,

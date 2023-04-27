@@ -10,7 +10,6 @@ from .notion import TrainingPlansNotion
 from .types import Environment, FilterProperty, Frequency, Goal, Level, Sex
 
 router = APIRouter(
-    prefix="/training-plans",
     tags=["training-plans"],
     route_class=LoggingRoute,
 )

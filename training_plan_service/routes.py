@@ -38,9 +38,7 @@ async def fetch_training_plans() -> int:
 
     for plan in training_plans:
         await training_plans_collection.update_one(
-            {"notion_id": plan.notion_id},
-            {"$set": jsonable_encoder(plan.dict())},
-            upsert=True,
+            {"notion_id": plan.notion_id}, {"$set": jsonable_encoder(plan)}, upsert=True
         )
 
     return len(training_plans)

@@ -1,10 +1,9 @@
-from uuid import UUID
-
 from pydantic import BaseModel, validator
 
 from .types import Environment, Frequency, Goal, Level, Sex
 
 PROPERTY_TO_ALIAS = {
+    "notion_id": "id",
     "title": "Назва",
     "price": "Вартість",
     "content_url": "Посилання",
@@ -17,7 +16,7 @@ PROPERTY_TO_ALIAS = {
 
 
 class TrainingPlan(BaseModel):
-    id: UUID
+    notion_id: str
     url: str
 
     title: str

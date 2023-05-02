@@ -1,5 +1,3 @@
-# mypy: disable-error-code="literal-required"
-
 from uuid import UUID
 
 from pydantic import BaseModel, validator

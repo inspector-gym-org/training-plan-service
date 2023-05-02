@@ -49,7 +49,7 @@ async def fetch_training_plans() -> int:
 @router.get("/{training_plan_id}/")
 async def get_training_plan(training_plan_id: str) -> TrainingPlan:
     if training_plan := await training_plans_collection.find_one(
-        {"_id": training_plan_id}
+        {"notion_id": training_plan_id}
     ):
         return training_plan
 

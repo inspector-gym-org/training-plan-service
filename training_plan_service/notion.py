@@ -1,7 +1,7 @@
 from urllib.parse import urljoin
 from uuid import UUID
 
-import requests
+import httpx
 
 from .models import PROPERTY_TO_ALIAS, TrainingPlan, TrainingPlansList
 from .types import FilterEnum, FilterProperty
@@ -24,16 +24,17 @@ class TrainingPlansNotion:
 
         self.database_id = database_id
 
-    def get_training_plan(self, training_plan_id: UUID) -> TrainingPlan:
-        response = requests.get(
-            url=self.join_url(f"/v1/pages/{training_plan_id.hex}"),
-            timeout=self.timeout,
-            headers=self.get_headers(),
-        )
+    async def get_training_plan(self, training_plan_id: UUID) -> TrainingPlan:
+        async with httpx.AsyncClient() as client:
+            response = await client.get(
+                url=self.join_url(f"/v1/pages/{training_plan_id.hex}"),
+                timeout=self.timeout,
+                headers=self.get_headers(),
+            )
 
         return TrainingPlan(**response.json())
 
-    def get_training_plans(
+    async def get_training_plans(
         self, filters: dict[FilterProperty, FilterEnum | None] | None
     ) -> list[TrainingPlan]:
         url = self.join_url(f"/v1/databases/{self.database_id}/query")
@@ -49,12 +50,13 @@ class TrainingPlansNotion:
                 if enum
             ]
 
-        response = requests.post(
-            url=url,
-            timeout=self.timeout,
-            json={"filter": {"and": notion_filters}},
-            headers=self.get_headers(),
-        )
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                url=url,
+                timeout=self.timeout,
+                json={"filter": {"and": notion_filters}},
+                headers=self.get_headers(),
+            )
 
         return TrainingPlansList(**response.json()).results
 

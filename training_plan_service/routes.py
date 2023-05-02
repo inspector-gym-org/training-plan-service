@@ -10,6 +10,7 @@ from .notion import TrainingPlansNotion
 from .types import Environment, FilterProperty, Frequency, Goal, Level, Sex
 
 router = APIRouter(
+    prefix="/plans",
     tags=["training-plans"],
     route_class=LoggingRoute,
 )
@@ -31,7 +32,7 @@ async def get_training_plans(
     frequency: Frequency | None = None,
     environment: Environment | None = None,
 ) -> list[TrainingPlan]:
-    return database.get_training_plans(
+    return await database.get_training_plans(
         filters={
             FilterProperty.SEX: sex,
             FilterProperty.GOAL: goal,
@@ -42,12 +43,12 @@ async def get_training_plans(
     )
 
 
-@router.get("/{training_plan_id}")
+@router.get("/{training_plan_id}/")
 async def get_training_plan(training_plan_id: UUID) -> TrainingPlan:
-    return database.get_training_plan(training_plan_id)
+    return await database.get_training_plan(training_plan_id)
 
 
-@router.get("/existing-property-values/")
+@router.get("/property/{property}/")
 async def get_existing_property_values(
     property: FilterProperty,
     sex: Sex | None = None,
@@ -56,7 +57,7 @@ async def get_existing_property_values(
     frequency: Frequency | None = None,
     environment: Environment | None = None,
 ) -> set[Enum]:
-    plans = database.get_training_plans(
+    plans = await database.get_training_plans(
         filters={
             FilterProperty.SEX: sex,
             FilterProperty.GOAL: goal,

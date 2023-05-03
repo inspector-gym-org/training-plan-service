@@ -32,16 +32,14 @@ async def get_training_plans(
     ).to_list(length=None)
 
 
-@router.put("/")
-async def fetch_training_plans() -> int:
+@router.put("/", status_code=status.HTTP_204_NO_CONTENT)
+async def fetch_training_plans() -> None:
     training_plans = await get_all_training_plans()
 
     for plan in training_plans:
         await training_plans_collection.update_one(
             {"notion_id": plan.notion_id}, {"$set": jsonable_encoder(plan)}, upsert=True
         )
-
-    return len(training_plans)
 
 
 @router.get("/{training_plan_id}/")

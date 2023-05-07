@@ -16,6 +16,8 @@ jobs:
           python-version: "3.11"
           cache: pip
 
+      - name: clear npm cache
+        run: npm cache clean --force
       - name: install poetry
         run: pip install poetry
       - name: install dev dependencies

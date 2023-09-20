@@ -33,7 +33,7 @@ class Frequency(Enum):
 
 
 class Environment(Enum):
-    GYM = "Спортзал"
+    GYM = "Тренажерний зал"
     HOUSE_AND_STREET = "Дім + вулиця"
 
 
